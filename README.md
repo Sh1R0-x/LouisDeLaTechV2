@@ -109,6 +109,9 @@ The code is under CeCILL license.
 
 You can find all details here: <https://cecill.info/licences/Licence_CeCILL_V2.1-en.html>
 
+## Changelog
+See `CHANGELOG.md` for step-by-step updates.
+
 ## Credits
 
 Copyright © Lyon e-Sport, 2021

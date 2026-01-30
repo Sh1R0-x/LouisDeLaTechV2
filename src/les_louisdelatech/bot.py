@@ -69,7 +69,14 @@ class LouisDeLaTech(commands.Bot):
         self._hello_asso_token_saver(result)
 
     def _hello_asso_token_saver(self, token: str):
-        self.hello_asso.headers = {"authorization": f"Bearer {token}"}
+        access_token = token
+        if isinstance(token, dict):
+            access_token = token.get("access_token")
+            self.hello_asso.token = token
+        if not access_token:
+            logger.error("HelloAsso token missing access_token")
+            return
+        self.hello_asso.headers = {"authorization": f"Bearer {access_token}"}
 
     def get_entity_to_skip(self, entity: str, provider: str):
         teams = []
@@ -125,6 +132,7 @@ class LouisDeLaTech(commands.Bot):
         logger.info("Successfully logged in and booted...!")
         if not self.synced:  # check if slash commands have been synced
             await self.tree.sync()
+            self.synced = True
             logger.info("Slash commands synced")
 
     async def on_command_error(self, ctx, error: Exception):
@@ -144,4 +152,4 @@ class LouisDeLaTech(commands.Bot):
 
     async def close(self):
         await connections.close_all()
-        super()
+        await super().close()

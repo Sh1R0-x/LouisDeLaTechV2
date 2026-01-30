@@ -1,6 +1,10 @@
+import logging
+
 from discord.ext import commands
 
 from les_louisdelatech.utils.discord import is_team_allowed
+
+logger = logging.getLogger()
 
 
 class ManagementCog(commands.Cog):
@@ -30,6 +34,11 @@ class ManagementCog(commands.Cog):
             ]
             and not member.bot
         ):
+            if after.channel.category is None:
+                logger.warning(
+                    "Voice channel creation skipped: trigger channel has no category."
+                )
+                return
             # List meeting channels already existing in the user's category and order it
             list_channels_name = []
 

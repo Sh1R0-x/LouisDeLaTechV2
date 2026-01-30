@@ -51,10 +51,11 @@ class HelloAssoCog(commands.Cog):
             try:
                 user = User.from_hello_asso(membership)
             except LouisDeLaTechError as e:
-                logger.debug(ctx.send(e.args[0]))
+                logger.debug("HelloAsso user ignored: %s", e)
+                await ctx.send(e.args[0])
                 continue
             except ValueError as e:
-                await ctx.send(ctx.send(e.args[0]))
+                await ctx.send(e.args[0])
                 continue
 
             for current_user in current_users:
@@ -99,10 +100,11 @@ class HelloAssoCog(commands.Cog):
                 user = User.from_hello_asso(membership_order)
                 membership_orders.append(user)
             except LouisDeLaTechError as e:
-                logger.debug(ctx.send(e.args[0]))
+                logger.debug("HelloAsso user ignored: %s", e)
+                await ctx.send(e.args[0])
                 continue
             except ValueError as e:
-                await ctx.send(ctx.send(e.args[0]))
+                await ctx.send(e.args[0])
                 continue
 
         for current_user in current_users:

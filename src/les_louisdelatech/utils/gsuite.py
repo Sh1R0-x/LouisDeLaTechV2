@@ -32,7 +32,10 @@ def is_gsuite_admin(func):
 
 
 def format_google_api_error(error: HttpError):
-    return f"Google API error status code {error.status_code}:{responses[error.status_code]}"
+    status = getattr(error, "status_code", None)
+    if status:
+        return f"Google API error status code {status}:{responses.get(status, 'Unknown')}"
+    return f"Google API error: {error}"
 
 
 def is_user_managed(user: User, teams_to_skip: list[str]):
@@ -111,16 +114,19 @@ def add_user(
                 "birthdate": user.birthdate.strftime("%d/%m/%Y"),
             },
         },
-        "addresses": [{"formatted": user.address}],
-        "phones": [{"type": "mobile", "value": user.phone, "primary": True}],
-        "emails": [{"type": "home", "address": user.backup_email}],
-        "recoveryPhone": user.phone,
-        "recoveryEmail": user.backup_email,
         "organizations": [{"primary": True, "customType": "", "department": user.team}],
         "password": hash_password(password),
         "hashFunction": "SHA-1",
         "changePasswordAtNextLogin": True,
     }
+    if user.address:
+        body["addresses"] = [{"formatted": user.address}]
+    if user.phone:
+        body["phones"] = [{"type": "mobile", "value": user.phone, "primary": True}]
+        body["recoveryPhone"] = user.phone
+    if user.backup_email:
+        body["emails"] = [{"type": "home", "address": user.backup_email}]
+        body["recoveryEmail"] = user.backup_email
     make_request(admin_sdk.users().insert(body=body))
 
 
