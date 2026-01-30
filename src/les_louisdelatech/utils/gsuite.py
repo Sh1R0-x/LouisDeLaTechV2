@@ -34,7 +34,9 @@ def is_gsuite_admin(func):
 def format_google_api_error(error: HttpError):
     status = getattr(error, "status_code", None)
     if status:
-        return f"Google API error status code {status}:{responses.get(status, 'Unknown')}"
+        return (
+            f"Google API error status code {status}:{responses.get(status, 'Unknown')}"
+        )
     return f"Google API error: {error}"
 
 

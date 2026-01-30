@@ -30,4 +30,3 @@ def send_email(
         body=body,
     )
     return gmail_sdk.users().messages().send(userId="me", body={"raw": raw}).execute()
-

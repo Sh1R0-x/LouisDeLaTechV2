@@ -25,6 +25,7 @@ def _configure_logging(level):
         force=True,
     )
 
+
 parser = ArgumentParser()
 parser.add_argument(
     "-c",
