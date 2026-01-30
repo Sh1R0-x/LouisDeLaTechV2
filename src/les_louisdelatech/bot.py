@@ -116,6 +116,10 @@ class LouisDeLaTech(commands.Bot):
 
         return discovery.build("gmail", "v1", credentials=creds, cache_discovery=False)
 
+    def mailer_sdk(self):
+        # Use the delegated "subject" account to send emails (welcome/reset).
+        return self.gmail_sdk(self.config["google"]["subject"])
+
     async def on_ready(self):
         logger.info(f"Logged in as: {self.user.name} - {self.user.id}")
         logger.info("Successfully logged in and booted...!")

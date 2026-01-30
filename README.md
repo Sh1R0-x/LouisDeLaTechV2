@@ -90,6 +90,8 @@ Fill `config.toml` with `config.example`
 python3 -m les_louisdelatech.main -c config.toml -g google.json
 ```
 
+Note: the bot sends provisioning/reset credentials by email (not Discord DM). Make sure your Google delegated scopes include Gmail send (see `config.example`).
+
 # Dev
 Install [uv](https://docs.astral.sh/uv/getting-started/installation/)
 
